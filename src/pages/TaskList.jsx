@@ -9,11 +9,16 @@ const TaskListPage = () => {
   const statusColors = {
     "დასაწყები": "bg-[#F7BC30]",
     "პროგრესში": "bg-[#FB5607]",
-    "მზად ტესტირებისთვის": "bg-pink-500 ",
+    "მზად ტესტირებისთვის": "bg-pink-500",
     "დასრულებული": "bg-[#3A86FF]",
-    
   };
 
+  const statusBorderColors = {
+    "დასაწყები": "border-[#F7BC30]",
+    "პროგრესში": "border-[#FB5607]",
+    "მზად ტესტირებისთვის": "border-pink-500",
+    "დასრულებული": "border-[#3A86FF]",
+  };
 
   const fetchTasks = async () => {
     try {
@@ -41,7 +46,6 @@ const TaskListPage = () => {
     }
   };
 
-
   useEffect(() => {
     const loadAllData = async () => {
       await fetchTasks();
@@ -50,7 +54,6 @@ const TaskListPage = () => {
     
     loadAllData();
   }, []);
-
 
   const tasksByStatus = tasks.reduce((grouped, task) => {
     const statusName = task.status.name;
@@ -61,12 +64,13 @@ const TaskListPage = () => {
     return grouped;
   }, {});
 
-
   const getStatusColor = (statusName) => {
-    return statusColors[statusName] ;
+    return statusColors[statusName];
   };
 
-
+  const getBorderColor = (statusName) => {
+    return statusBorderColors[statusName];
+  };
 
   return (
     <div className="pt-10">
@@ -77,7 +81,7 @@ const TaskListPage = () => {
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {statuses.map((status) => (
           <div key={status.id} className="col-span-1">
-             <h3 className={`${getStatusColor(status.name)} text-white py-2 px-4 rounded mb-4`}>
+            <h3 className={`${getStatusColor(status.name)} text-white py-[15px] text-xl rounded-[10px] mb-[30px] text-center`}>
               {status.name}
             </h3>
             
@@ -85,9 +89,9 @@ const TaskListPage = () => {
               {tasksByStatus[status.name]?.slice(0, 4).map((task) => (
                 <div
                   key={task.id}
-                  className="border border-gray-200 p-4 rounded-lg shadow-sm hover:shadow-md"
+                  className={` ${getBorderColor(task.status.name)} border p-[20px] rounded-[15px] `}
                 >
-                  <h4 className="text-lg font-semibold mb-2">{task.name}</h4>
+                  <h4 className="text-lg font-semibold mb-2">{task.name}  </h4>
                   <p className="text-gray-600 text-sm mb-3">{task.description}</p>
                   
                   <div className="flex justify-between mt-2">
@@ -122,7 +126,7 @@ const TaskListPage = () => {
                 </div>
               )}
             </div>
-        </div>
+          </div>
         ))}
       </div>
     </div>
