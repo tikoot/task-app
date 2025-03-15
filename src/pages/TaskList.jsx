@@ -117,14 +117,14 @@ const TaskListPage = () => {
         დავალებების გვერდი
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[52px]">
         {statuses.map((status) => (
           <div key={status.id} className="col-span-1">
             <h3 className={`${getStatusColor(status.name)} text-white py-[15px] text-xl rounded-[10px] mb-[30px] text-center`}>
               {status.name}
             </h3>
             
-            <div className="space-y-4">
+            <div className="space-y-[30px]">
               {tasksByStatus[status.name]?.slice(0, 4).map((task) => {
                 const priorityStyle = getPriorityStyles(task.priority.name);
                 
@@ -133,44 +133,50 @@ const TaskListPage = () => {
                     key={task.id}
                     className={`${getBorderColor(task.status.name)} border p-[20px] rounded-[15px] hover:shadow-md transition-shadow`}
                   >
-                    <h4 className="text-lg font-semibold mb-2">
-                      {truncateText(task.name, 30)}
-                    </h4>
-                    <p className="text-gray-600 text-sm mb-3">
-                      {truncateText(task.description, 60)}
-                    </p>
-                    
-                    <div className="flex justify-between mt-4 items-center flex-wrap gap-2">
-                      <div className="flex items-center">
-                        <img
-                          src={task.employee.avatar}
-                          alt={task.employee.name}
-                          className="w-8 h-8 rounded-full mr-2"
-                        />
-                        <span className="text-sm">
-                          {truncateText(`${task.employee.name} ${task.employee.surname}`, 15)}
-                        </span>
-                      </div>
-                    
-                      <div className="flex items-center">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center justify-center gap-[10px]">
+                      <div className={`flex items-center rounded-[4px] border  p-[4px]  ${priorityStyle.borderColor}`}>
                         <img
                           src={task.priority.icon}
                           alt={task.priority.name}
                           className="w-5 h-5 mr-1"
                         />
-                        <span className={`text-xs font-medium px-2 py-1 rounded-full ${priorityStyle.bgColor} ${priorityStyle.textColor} ${priorityStyle.borderColor}`}>
+                        <span className={`text-xs font-medium   ${priorityStyle.bgColor} ${priorityStyle.textColor} `}>
                           {task.priority.name}
                         </span>
                       </div>
                       
-                      <div className={`${getDepartmentColor(task.department.id)} px-2 py-1 rounded-md text-xs`}>
+                      <div className={`${getDepartmentColor(task.department.id)} px-[18px] py-[5px] text-white rounded-[15px] text-xs`}>
                         {truncateText(task.department.name, 12)}
                       </div>
+
+
+                      </div>
+                      <div className="text-[#212529] text-xs">
+                      {new Date(task.due_date).toLocaleDateString()}
                     </div>
+                    </div>
+                    <div className="px-[10px] py-7">
+                    <h4 className="text-[15px] text-[#191919] font-semibold mb-3">
+                      {task.name}
+                    </h4>
+                    <p className="text-[#343A40] text-sm mb-3">
+                      {task.description}
+                    </p>
+                    </div>
+                 
                     
-                    <div className="text-gray-500 text-xs mt-3">
-                      Due: {new Date(task.due_date).toLocaleDateString()}
+                    <div className="flex justify-between mt-4 items-center flex-wrap gap-2 w-full">
+                      <div className="flex items-center justify-between w-full">
+                        <img
+                          src={task.employee.avatar}
+                          alt={task.employee.name}
+                          className="w-8 h-8 rounded-full mr-2"
+                        />
+                        <span className="text-sm">comments</span>
+                      </div>
                     </div>
+                  
                   </div>
                 );
               })}
