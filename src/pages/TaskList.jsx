@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const TaskListPage = () => {
   const [tasks, setTasks] = useState([]);
@@ -129,9 +130,13 @@ const TaskListPage = () => {
                 const priorityStyle = getPriorityStyles(task.priority.name);
                 
                 return (
+                  <Link
+                  to={`/tasks/${task.id}`} key={task.id}
+                  className="block"
+        >
                   <div
-                    key={task.id}
-                    className={`${getBorderColor(task.status.name)} border p-[20px] rounded-[15px] hover:shadow-md transition-shadow`}
+                
+                    className={`${getBorderColor(task.status.name)} border p-[20px]  rounded-[15px] hover:shadow-md transition-shadow`}
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center justify-center gap-[10px]">
@@ -178,6 +183,7 @@ const TaskListPage = () => {
                     </div>
                   
                   </div>
+                  </Link>
                 );
               })}
               

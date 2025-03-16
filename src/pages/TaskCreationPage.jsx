@@ -3,7 +3,6 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
-import { FaCheck, FaTimes } from "react-icons/fa";
 
 const TaskCreationPage = () => {
   const {
