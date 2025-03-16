@@ -1,14 +1,21 @@
 import { Link } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Logo from "../assets/logo.png";
+import EmployeModal from "./EmployeModal";
+
 
 function Header() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
   return (
     <header className="flex justify-between items-center py-[31px]">
       <img src={Logo} alt="Logo" className="" />
       <div className="flex gap-4">
-        <Link to="/new-user" className="border border-[#8338EC] text-[#212529] rounded-[5px] px-[20px] py-[10px] text-md">
+        <button  onClick={openModal} className="border border-[#8338EC] text-[#212529] cursor-pointer rounded-[5px] px-[20px] py-[10px] text-md">
           თანამშრომლის შექმნა
-        </Link>
+        </button>
         <Link
           to="/new-task"
           className="bg-[#8338EC] text-white rounded-[5px] px-[20px] py-[10px] text-md flex items-center"
@@ -16,6 +23,10 @@ function Header() {
           + შექმენი ახალი დავალება
         </Link>
       </div>
+      <EmployeModal 
+        isOpen={isModalOpen} 
+        onClose={closeModal} 
+      />
     </header>
   );
 }
