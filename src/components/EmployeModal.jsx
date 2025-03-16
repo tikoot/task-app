@@ -1,7 +1,31 @@
-import React from 'react';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
 import close from "../assets/close.png";
 
 const EmployeModal = ({ isOpen, onClose }) => {
+  const [departments, setDepartments] = useState([]);
+  const token = "9e6a6811-52b5-49ef-bb0d-19a0903805d5";
+
+  useEffect(() => {
+    axios
+      .get("https://momentum.redberryinternship.ge/api/departments", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
+      .then((response) => {
+        if (Array.isArray(response.data)) {
+          setDepartments(response.data);
+        } else {
+          console.error("Erro:", response.data);
+          setDepartments([]);
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        setDepartments([]);
+      });
+  }, []);
+
+
   if (!isOpen) return null;
   
   return (
@@ -51,8 +75,8 @@ const EmployeModal = ({ isOpen, onClose }) => {
        
           
     
-          <div>
-            <label className="block text-sm mb-1">ავატარი*</label>
+          <div className='py-[45px]'>
+            <label className="block text-sm font-medium text-[#343A40] mb-[3px]">ავატარი*</label>
             <div className="flex justify-center my-4">
               <div className="w-16 h-16 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center">
                 <img 
@@ -66,18 +90,18 @@ const EmployeModal = ({ isOpen, onClose }) => {
           
           
           <div>
-            <label className="block text-sm mb-1">დეპარტამენტი*</label>
+            <label className="block text-sm font-medium text-[#343A40] mb-[3px] max-w-[384px]">დეპარტამენტი*</label>
             <div className="relative">
               <select 
-                className="w-full border border-gray-300 rounded p-2 pr-8 appearance-none bg-white"
+                className="w-full border border-gray-300 rounded p-2 pr-8  bg-white max-w-[384px]"
               >
-                <option></option>
+                <option value=""></option>
+                {departments.map((dept) => (
+                  <option className="" key={dept.id} value={dept.id}>
+                    {dept.name}
+                  </option>
+                ))}
               </select>
-              <div className="absolute inset-y-0 right-0 flex items-center px-2 pointer-events-none">
-                <svg className="w-4 h-4 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
-                </svg>
-              </div>
             </div>
           </div>
         </div>
