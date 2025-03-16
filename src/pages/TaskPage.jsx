@@ -9,6 +9,8 @@ const TaskPage = () => {
 
     const { id } = useParams();
     const [task, setTask] = useState(null);
+    const [statuses, setStatuses] = useState([]);
+    const [selectedStatus, setSelectedStatus] = useState(null);
     const token = "9e6a6811-52b5-49ef-bb0d-19a0903805d5";
 
     useEffect(() => {
@@ -18,16 +20,44 @@ const TaskPage = () => {
               headers: { Authorization: `Bearer ${token}` }
             });
             setTask(response.data);
+            setSelectedStatus(response.data.status.id);
           } catch (error) {
             console.error("Error:", error);
-          } finally {
-          }
+          } 
         };
-    
-        fetchTask();
-      }, [id]);
 
-      
+        const fetchStatuses = async () => {
+            try {
+                const response = await axios.get("https://momentum.redberryinternship.ge/api/statuses", {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
+                setStatuses(response.data); 
+            } catch (error) {
+                console.error("Error fetching statuses:", error);
+            }
+        };
+
+        fetchTask();
+        fetchStatuses();
+    }, [id]);
+
+    const handleStatusChange = async (event) => {
+        const newStatusId = event.target.value;
+        setSelectedStatus(newStatusId);
+
+        try {
+            await axios.put(
+                `https://momentum.redberryinternship.ge/api/tasks/${id}`,
+                { status_id: newStatusId },
+                { headers: { Authorization: `Bearer ${token}` } }
+            );
+            console.log("Status updated successfully");
+        } catch (error) {
+            console.error("Error updating status:", error);
+        }
+    };
+
+
   const departmentColors = {
     1: "bg-[#FF66A8]",
     2: "bg-[#FD9A6A]",
@@ -142,7 +172,23 @@ const TaskPage = () => {
                     <div className="flex items-center"><img  src={calendar} alt="" /><p className="pl-[6px] text-[#474747] text-md">დავალების ვადა</p></div>
                 </div>
                 <div>
-                    <div></div>
+                    <div>
+                        <div className="mt-4">
+                            <select
+                                id="status"
+                                name="status"
+                                value={selectedStatus || ""}
+                                onChange={handleStatusChange}
+                                className="w-[259px] bg-white border border-[#DEE2E6] rounded-[5px] p-2 text-[#0D0F10]"
+                            >
+                                {statuses.map((status) => (
+                                    <option key={status.id} value={status.id}>
+                                        {status.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
                     <div className="flex items-center">
                          <img
                           src={task.employee.avatar}
