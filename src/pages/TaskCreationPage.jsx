@@ -282,7 +282,7 @@ return (
   
       <div className="pt-[55px]">
         <div className="grid grid-cols-2 gap-x-[161px]">
-        <div className="grid grid-cols-2 gap-x-[32px]  ">
+        <div className="grid grid-cols-2 gap-x-[32px] max-w-[550ps] ">
           <div className="w-[259px] ">
             <label className="block text-md text-[#343A40] font-semibold mb-[6px]">პრიორიტეტი*</label>
             <select {...register("priority", { required: "Priority is required" })}
