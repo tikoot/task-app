@@ -68,21 +68,27 @@ const TaskListPage = () => {
     }
   };
 
-
   useEffect(() => {
-    const savedFilters = localStorage.getItem('taskFilters');
+    const savedFilters = localStorage.getItem('taskFilters'); 
     if (savedFilters) {
       const parsedFilters = JSON.parse(savedFilters);
       setFilters(parsedFilters);
       setTempSelections(parsedFilters);
     }
   }, []);
-
+  
   useEffect(() => {
-    localStorage.setItem('taskFilters', JSON.stringify(filters));
+    if (filters.departments.length > 0 || filters.priorities.length > 0 || filters.employee !== null) {
+      localStorage.setItem('taskFilters', JSON.stringify(filters)); 
+    }
   }, [filters]);
-
-
+  
+  useEffect(() => {
+    return () => {
+      localStorage.removeItem('taskFilters'); 
+    };
+  }, []);
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest('.filter-dropdown')) {
@@ -458,7 +464,6 @@ const TaskListPage = () => {
    {dropdownStates.employees && (
       <div className="absolute z-10 mt-6 w-full bg-white border border-[#8338EC] rounded-[10px] min-w-[500px]">
       <div className="px-[30px] pt-[40px] pb-[20px]">
-         <h4 className="text-sm font-medium text-gray-700 mb-2">აირჩიეთ თანამშრომელი</h4>
          <div className="max-h-48 overflow-y-auto">
            {employees.map(employee => (
              <div key={employee.id} className="flex items-center mb-2">
@@ -471,8 +476,8 @@ const TaskListPage = () => {
                  className="mr-2"
                />
                <label htmlFor={`emp-${employee.id}`} className="text-sm cursor-pointer flex items-center">
-                 <img src={employee.avatar} alt={`${employee.first_name} ${employee.last_name}`} className="w-6 h-6 rounded-full mr-2" />
-                 {employee.first_name} {employee.last_name}
+                 <img src={employee.avatar} alt={`${employee.name} ${employee.surname}`} className="w-6 h-6 rounded-full mr-2" />
+                 {employee.name} {employee.surname}
                </label>
              </div>
            ))}
@@ -544,7 +549,7 @@ const TaskListPage = () => {
                       alt={getEmployeeById(filters.employee).name} 
                       className="w-4 h-4 rounded-full"
                     />
-                    {getEmployeeById(filters.employee).first_name} {getEmployeeById(filters.employee).last_name}
+                    {getEmployeeById(filters.employee).name} {getEmployeeById(filters.employee).surname}
                   </>
                 )}
                 <button 
