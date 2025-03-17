@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import close from "../assets/close.png";
+import trash from "../assets/trash.png";
 
 const EmployeModal = ({ isOpen, onClose }) => {
   const [departments, setDepartments] = useState([]);
+  const [avatar, setAvatar] = useState(null);
   const token = "9e6a6811-52b5-49ef-bb0d-19a0903805d5";
 
   useEffect(() => {
@@ -25,6 +27,17 @@ const EmployeModal = ({ isOpen, onClose }) => {
       });
   }, []);
 
+  const handleAvatarChange = (e) => {
+    if (e.target.files && e.target.files[0]) {
+      const file = e.target.files[0];
+      setAvatar(URL.createObjectURL(file));
+    }
+  };
+
+  const removeAvatar = (e) => {
+    e.stopPropagation();
+    setAvatar(null);
+  };
 
   if (!isOpen) return null;
   
@@ -74,17 +87,47 @@ const EmployeModal = ({ isOpen, onClose }) => {
         
        
           
-    
           <div className='py-[45px]'>
             <label className="block text-sm font-medium text-[#343A40] mb-[3px]">ავატარი*</label>
-            <div className="flex justify-center my-4">
-              <div className="w-16 h-16 rounded-full bg-gray-200 overflow-hidden flex items-center justify-center">
-                <img 
-                  src="" 
-                  alt="avatar" 
-                  className="w-full h-full object-cover"
-                />
-              </div>
+            <div className="flex flex-col items-center my-4 border border-[#CED4DA] border-dashed rounded-[8px] ">
+              {avatar ? (
+                <div className="relative py-[16px]">
+                  <div className="w-[88px] h-[88px] rounded-full bg-gray-200 overflow-hidden flex items-center justify-center">
+                    <img 
+                      src={avatar} 
+                      alt="avatar" 
+                      className="w-full h-full object-cover"
+                    />
+                  </div>
+                  <button 
+                    onClick={removeAvatar} 
+                    className="absolute bottom-4 -right-1 text-white rounded-full w-6 h-6 flex items-center justify-center cursor-pointer"
+                  >
+                   <img src={trash} alt="trash avatar" />
+                  </button>
+                </div>
+              ) : (
+                <label className="cursor-pointer py-[16px]">
+                  <div className="w-[88px] h-[88px] rounded-full bg-gray-200 flex items-center justify-center">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M12 5V19M5 12H19" stroke="#6C757D" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                    </svg>
+                  </div>
+                  <input 
+                    type="file" 
+                    accept="image/*" 
+                    className="hidden" 
+                    onChange={handleAvatarChange}
+                  />
+                </label>
+              )}
+              <input 
+                type="file" 
+                accept="image/*" 
+                id="avatar-upload" 
+                className="hidden" 
+                onChange={handleAvatarChange}
+              />
             </div>
           </div>
           
