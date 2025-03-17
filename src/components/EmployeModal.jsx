@@ -59,7 +59,11 @@ const EmployeModal = ({ isOpen, onClose }) => {
           },
         }
       );
-
+      setName("");
+      setSurname("");
+      setDepartmentId("");
+      setAvatar(null);
+      setAvatarFile(null);
       onClose();
     } catch (error) {
       console.error("Error:", error);
