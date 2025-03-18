@@ -247,31 +247,53 @@ const TaskPage = () => {
       )}
       <div className="comments border border-[#DDD2FF]  bg-[#F8F3FEA6] rounded-[10px]">
         <div className="px-[45px] py-[40px]">
-          <textarea
-            value={newComment}
-            onChange={(e) => setNewComment(e.target.value)}
-            className="w-full border rounded-[10px] border-[#ADB5BD] bg-white px-[20px] pt-[18px] resize-none min-h-[135px] mt-4 text-[#898989] text-sm"
-            placeholder="დაწერე კომენტარი"
-          />
-          <button
-            onClick={handleCommentSubmit}
-            className="mt-2 bg-[#8338EC] text-white px-[18px] py-2 rounded-[20px] disabled:opacity-50"
-          >
-            დააკომენტარე
-          </button>
+        <div className="relative">
+  <textarea
+    value={newComment}
+    onChange={(e) => setNewComment(e.target.value)}
+    className="w-full border rounded-[10px] border-[#ADB5BD] bg-white px-[20px] pt-[18px] pb-[50px] resize-none min-h-[135px] mt-4 text-[#898989] text-sm"
+    placeholder="დაწერე კომენტარი"
+  />
+  <button
+    onClick={handleCommentSubmit}
+    className="absolute bottom-5 right-3 cursor-pointer bg-[#8338EC] text-white px-[18px] py-2 rounded-[20px] disabled:opacity-50"
+  >
+    დააკომენტარე
+  </button>
+</div>
 
-          <div className="mt-6">
-            {comments.map((comment) => (
-              <div key={comment.id} className="border-b pb-4 mt-4">
-                <p className="font-semibold">{comment.author_nickname}</p>
-                <p>{comment.text}</p>
+          <div className="mt-[66px]">
+            <h2 className="text-[20px] font-semibold mb-[40px]">კომენტარები</h2>
+            {[...comments].reverse().map((comment) => (
+              <div key={comment.id} className="pb-4 mt-4">
+                <div className="flex ">
+                    <img src={comment.author_avatar} alt="" className="w-8 h-8 rounded-full mr-[12px] mt-2"/>
+                <div>
+                    <p className="font-semibold text-[18px] mb-2">{comment.author_nickname}</p>
+                    <p className="text-md text-[#343A40]">{comment.text}</p>
+                </div>
+               
+                </div>
+                
 
                 {!comment.reply && (
                   <button
                     onClick={() => setReplyingTo(comment.id)}
-                    className="text-blue-500 mt-2"
+                    className="text-[#8338EC] text-xs mt-2 flex items-center pl-[45px] "
                   >
-                    Reply
+                    <svg className="mr-2" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <g clip-path="url(#clip0_9142_1684)">
+                            <path d="M16.0007 13.9993H14.6673V11.9993C14.6673 8.66602 12.0007 5.99935 8.66732 5.99935H5.33398V4.66602H8.66732C12.734 4.66602 16.0007 7.93268 16.0007 11.9993V13.9993Z" fill="#8338EC"/>
+                            <path d="M2 5.33333L5.33333 8.66667V2L2 5.33333Z" fill="#8338EC"/>
+                            </g>
+                            <defs>
+                            <clipPath id="clip0_9142_1684">
+                            <rect width="16" height="16" fill="white"/>
+                            </clipPath>
+                            </defs>
+                            </svg>
+
+                    უპასუხე
                   </button>
                 )}
 
@@ -280,14 +302,14 @@ const TaskPage = () => {
                     <textarea
                       value={newReply}
                       onChange={(e) => setNewReply(e.target.value)}
-                      className="w-full border p-2"
+                      className="w-full border rounded-[10px] border-[#ADB5BD] bg-white p-2 resize-none"
                       placeholder="Write a reply..."
                     />
                     <button
                       onClick={() => handleReplySubmit(comment.id)}
-                      className="mt-2 bg-green-500 text-white px-4 py-2 rounded disabled:opacity-50"
+                      className="mt-2 bg-[#8338EC] text-white px-[18px] py-2 rounded-[20px] disabled:opacity-50"
                     >
-                      Submit Reply
+                     დააკომენტარე
                     </button>
                     <button
                       onClick={() => setReplyingTo(null)}
@@ -298,11 +320,19 @@ const TaskPage = () => {
                   </div>
                 )}
                 {comment.reply && (
-                  <div className="ml-4 border-l pl-4 mt-2">
+                  <div className="ml-4 pl-4 mt-[20px]">
                     <div>
-                      <img className="w-8 h-8 rounded-full mr-2" src={comment.reply.author_avatar} alt="" />
-                      {comment.reply.author_nickname}
-                      <p>{comment.reply.text}</p>
+                      <div>
+
+                      </div>
+                      <div className="flex ">
+                    <img src={comment.reply.author_avatar} alt="" className="w-8 h-8 rounded-full mr-[12px] mt-2"/>
+                <div>
+                    <p className="font-semibold text-[18px] mb-2">{comment.reply.author_nickname}</p>
+                    <p className="text-md text-[#343A40]">{comment.reply.text}</p>
+                </div>
+               
+                </div>
                     </div>
                   </div>
                 )}
