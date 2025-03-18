@@ -390,7 +390,7 @@ return (
      
       </div>
       <div className="col-span-2 pt-[145px] justify-end justify-items-end ">
-        <button type="submit" className="bg-[#8338EC] text-white rounded-[5px] px-[20px] py-[10px] text-md flex items-center cursor-pointer">
+        <button type="submit" className="bg-[#8338EC] hover:bg-[#B588F4] text-white rounded-[5px] px-[20px] py-[10px] text-md flex items-center cursor-pointer">
         დავალების შექმნა
         </button>
       </div>

@@ -194,7 +194,7 @@ const EmployeModal = ({ isOpen, onClose }) => {
           </button>
           <button
             onClick={handleSubmit}
-            className="bg-[#8338EC] text-white px-6 py-2 rounded hover:bg-purple-700"
+            className="bg-[#8338EC] text-white px-6 py-2 rounded hover:bg-[#B588F4]"
            
           >
            დაამატე თანამშრომელი

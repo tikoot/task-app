@@ -18,7 +18,7 @@ function Header() {
         </button>
         <Link
           to="/new-task"
-          className="bg-[#8338EC] text-white rounded-[5px] px-[20px] py-[10px] text-md flex items-center"
+          className="bg-[#8338EC] hover:bg-[#B588F4] text-white rounded-[5px] px-[20px] py-[10px] text-md flex items-center"
         >
           + შექმენი ახალი დავალება
         </Link>

@@ -385,7 +385,7 @@ const TaskListPage = () => {
          <div className="flex justify-end mt-3">
            <button
              onClick={applyDepartmentFilters}
-             className="px-[45px] py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
+             className="px-[45px] hover:bg-[#B588F4] py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
            >
              არჩევა
            </button>
@@ -428,7 +428,7 @@ const TaskListPage = () => {
          <div className="flex justify-end mt-3">
            <button
              onClick={applyPriorityFilters}
-             className="px-[45px] py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
+             className="px-[45px] py-1 hover:bg-[#B588F4]  bg-[#8338EC] text-white rounded-[20px] text-sm"
            >
              არჩევა
            </button>
@@ -474,7 +474,7 @@ const TaskListPage = () => {
          <div className="flex justify-end mt-3">
            <button
              onClick={applyEmployeeFilter}
-             className="px-[45px] py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
+             className="px-[45px] hover:bg-[#B588F4]  py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
            >
              არჩევა
            </button>
