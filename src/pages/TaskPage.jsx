@@ -36,7 +36,15 @@ const TaskPage = () => {
           `https://momentum.redberryinternship.ge/api/tasks/${id}/comments`,
           { headers: { Authorization: `Bearer ${token}` } }
         );
-        setComments(response.data);
+        
+        const processedComments = response.data.map(comment => {
+          return {
+            ...comment,
+            replies: comment.sub_comments || []
+          };
+        });
+        
+        setComments(processedComments);
       } catch (error) {
         console.error("Error fetching comments:", error);
       }
@@ -84,7 +92,8 @@ const TaskPage = () => {
         { text: newComment },
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      setComments([...comments, { ...response.data, reply: null }]);
+      
+      setComments([...comments, { ...response.data, replies: [] }]);
       setNewComment("");
     } catch (error) {
       console.error("Error submitting comment:", error);
@@ -100,13 +109,15 @@ const TaskPage = () => {
         { text: newReply, parent_id: parentId },
         { headers: { Authorization: `Bearer ${token}` } }
       );
+      
       setComments(
         comments.map((comment) =>
           comment.id === parentId
-            ? { ...comment, reply: response.data }
+            ? { ...comment, replies: [...comment.replies, response.data] }
             : comment
         )
       );
+      
       setNewReply("");
       setReplyingTo(null);
     } catch (error) {
@@ -247,93 +258,93 @@ const TaskPage = () => {
       )}
       <div className="comments border border-[#DDD2FF]  bg-[#F8F3FEA6] rounded-[10px]">
         <div className="px-[45px] py-[40px]">
-        <div className="relative">
-  <textarea
-    value={newComment}
-    onChange={(e) => setNewComment(e.target.value)}
-    className="w-full border rounded-[10px] border-[#ADB5BD] bg-white px-[20px] pt-[18px] pb-[50px] resize-none min-h-[135px] mt-4 text-[#898989] text-sm"
-    placeholder="დაწერე კომენტარი"
-  />
-  <button
-    onClick={handleCommentSubmit}
-    className="absolute bottom-5 right-3 cursor-pointer bg-[#8338EC] text-white px-[18px] py-2 rounded-[20px] disabled:opacity-50"
-  >
-    დააკომენტარე
-  </button>
-</div>
+          <div className="relative">
+            <textarea
+              value={newComment}
+              onChange={(e) => setNewComment(e.target.value)}
+              className="w-full border rounded-[10px] border-[#ADB5BD] bg-white px-[20px] pt-[18px] pb-[50px] resize-none min-h-[135px] mt-4 text-[#898989] text-sm"
+              placeholder="დაწერე კომენტარი"
+            />
+            <button
+              onClick={handleCommentSubmit}
+              className="absolute bottom-5 right-3 cursor-pointer bg-[#8338EC] text-white px-[18px] py-2 rounded-[20px] disabled:opacity-50"
+            >
+              დააკომენტარე
+            </button>
+          </div>
 
           <div className="mt-[66px]">
-            <h2 className="text-[20px] font-semibold mb-[40px] flex items-center">კომენტარები <span className="bg-[#8338EC] rounded-[30px] text-white text-sm px-[11px] py-1 ml-[7px]">{comments.length}</span></h2>
-            {[...comments].reverse().map((comment) => (
+            <h2 className="text-[20px] font-semibold mb-[40px] flex items-center">
+              კომენტარები <span className="bg-[#8338EC] rounded-[30px] text-white text-sm px-[11px] py-1 ml-[7px]">{comments.length}</span>
+            </h2>
+            
+            {comments.map((comment) => (
               <div key={comment.id} className="pb-4 mt-4">
-                <div className="flex ">
-                    <img src={comment.author_avatar} alt="" className="w-8 h-8 rounded-full mr-[12px] mt-2"/>
-                <div>
+                <div className="flex">
+                  <img src={comment.author_avatar} alt="" className="w-8 h-8 rounded-full mr-[12px] mt-2"/>
+                  <div>
                     <p className="font-semibold text-[18px] mb-2">{comment.author_nickname}</p>
                     <p className="text-md text-[#343A40]">{comment.text}</p>
+                  </div>
                 </div>
-               
-                </div>
+
+        
+                <button
+                  onClick={() => setReplyingTo(comment.id)}
+                  className="text-[#8338EC] text-xs mt-2 flex items-center pl-[45px] cursor-pointer"
+                >
+                  <svg className="mr-2" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <g clipPath="url(#clip0_9142_1684)">
+                      <path d="M16.0007 13.9993H14.6673V11.9993C14.6673 8.66602 12.0007 5.99935 8.66732 5.99935H5.33398V4.66602H8.66732C12.734 4.66602 16.0007 7.93268 16.0007 11.9993V13.9993Z" fill="#8338EC"/>
+                      <path d="M2 5.33333L5.33333 8.66667V2L2 5.33333Z" fill="#8338EC"/>
+                    </g>
+                    <defs>
+                      <clipPath id="clip0_9142_1684">
+                        <rect width="16" height="16" fill="white"/>
+                      </clipPath>
+                    </defs>
+                  </svg>
+                  უპასუხე
+                </button>
                 
 
-                {!comment.reply && (
-                  <button
-                    onClick={() => setReplyingTo(comment.id)}
-                    className="text-[#8338EC] text-xs mt-2 flex items-center pl-[45px] cursor-pointer"
-                  >
-                    <svg className="mr-2" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <g clip-path="url(#clip0_9142_1684)">
-                            <path d="M16.0007 13.9993H14.6673V11.9993C14.6673 8.66602 12.0007 5.99935 8.66732 5.99935H5.33398V4.66602H8.66732C12.734 4.66602 16.0007 7.93268 16.0007 11.9993V13.9993Z" fill="#8338EC"/>
-                            <path d="M2 5.33333L5.33333 8.66667V2L2 5.33333Z" fill="#8338EC"/>
-                            </g>
-                            <defs>
-                            <clipPath id="clip0_9142_1684">
-                            <rect width="16" height="16" fill="white"/>
-                            </clipPath>
-                            </defs>
-                            </svg>
-
-                    უპასუხე
-                  </button>
-                )}
-
                 {replyingTo === comment.id && (
-                  <div className="mt-2">
+                  <div className="ml-10 mt-3 relative">
                     <textarea
                       value={newReply}
                       onChange={(e) => setNewReply(e.target.value)}
-                      className="w-full border rounded-[10px] border-[#ADB5BD] bg-white p-2 resize-none"
-                      placeholder="Write a reply..."
+                      className="w-full border rounded-[10px] border-[#ADB5BD] bg-white p-3 resize-none text-[#898989] text-sm"
+                      placeholder="დაწერე პასუხი"
                     />
-                    <button
-                      onClick={() => handleReplySubmit(comment.id)}
-                      className="mt-2 bg-[#8338EC] text-white px-[18px] py-2 rounded-[20px] disabled:opacity-50"
-                    >
-                     დააკომენტარე
-                    </button>
-                    <button
-                      onClick={() => setReplyingTo(null)}
-                      className="ml-2 text-gray-500"
-                    >
-                      Cancel
-                    </button>
+                    <div className="flex justify-end mt-2">
+                      <button
+                        onClick={() => setReplyingTo(null)}
+                        className="mr-2 text-gray-500 px-3 py-1 rounded-[20px]"
+                      >
+                        გაუქმება
+                      </button>
+                      <button
+                        onClick={() => handleReplySubmit(comment.id)}
+                        className="bg-[#8338EC] text-white px-3 py-1 rounded-[20px]"
+                      >
+                        პასუხი
+                      </button>
+                    </div>
                   </div>
                 )}
-                {comment.reply && (
-                  <div className="ml-4 pl-4 mt-[20px]">
-                    <div>
-                      <div>
-
+                {comment.replies && comment.replies.length > 0 && (
+                  <div className="ml-10 mt-4">
+                    {comment.replies.map((reply) => (
+                      <div key={reply.id} className="mt-3 pb-3">
+                        <div className="flex">
+                          <img src={reply.author_avatar} alt="" className="w-8 h-8 rounded-full mr-[12px] mt-2"/>
+                          <div>
+                            <p className="font-semibold text-[18px] mb-2">{reply.author_nickname}</p>
+                            <p className="text-md text-[#343A40]">{reply.text}</p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex ">
-                    <img src={comment.reply.author_avatar} alt="" className="w-8 h-8 rounded-full mr-[12px] mt-2"/>
-                <div>
-                    <p className="font-semibold text-[18px] mb-2">{comment.reply.author_nickname}</p>
-                    <p className="text-md text-[#343A40]">{comment.reply.text}</p>
-                </div>
-               
-                </div>
-                    </div>
+                    ))}
                   </div>
                 )}
               </div>
