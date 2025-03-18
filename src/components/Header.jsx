@@ -11,7 +11,7 @@ function Header() {
   const closeModal = () => setIsModalOpen(false);
   return (
     <header className="flex justify-between items-center py-[31px]">
-      <img src={Logo} alt="Logo" className="" />
+     <Link to="/"><img src={Logo} alt="Logo" className="" /></Link>
       <div className="flex gap-4">
         <button  onClick={openModal} className="border border-[#8338EC] text-[#212529] cursor-pointer rounded-[5px] px-[20px] py-[10px] text-md">
           თანამშრომლის შექმნა

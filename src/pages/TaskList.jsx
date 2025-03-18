@@ -15,11 +15,7 @@ const TaskListPage = () => {
     employee: null
   });
 
-  const [dropdownStates, setDropdownStates] = useState({
-    departments: false,
-    priorities: false,
-    employees: false
-  });
+  const [activeDropdown, setActiveDropdown] = useState(null);
 
   const [tempSelections, setTempSelections] = useState({
     departments: [],
@@ -92,11 +88,7 @@ const TaskListPage = () => {
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (!event.target.closest('.filter-dropdown')) {
-        setDropdownStates({
-          departments: false,
-          priorities: false,
-          employees: false
-        });
+        setActiveDropdown(null);
       }
     };
 
@@ -217,10 +209,7 @@ const TaskListPage = () => {
   };
 
   const toggleDropdown = (dropdown) => {
-    setDropdownStates(prev => ({
-      ...prev,
-      [dropdown]: !prev[dropdown]
-    }));
+    setActiveDropdown(prevDropdown => prevDropdown === dropdown ? null : dropdown);
   };
 
   const handleTempDepartmentChange = (departmentId) => {
@@ -255,7 +244,7 @@ const TaskListPage = () => {
       ...prev,
       departments: tempSelections.departments
     }));
-    setDropdownStates(prev => ({ ...prev, departments: false }));
+    setActiveDropdown(null);
   };
 
   const applyPriorityFilters = () => {
@@ -263,7 +252,7 @@ const TaskListPage = () => {
       ...prev,
       priorities: tempSelections.priorities
     }));
-    setDropdownStates(prev => ({ ...prev, priorities: false }));
+    setActiveDropdown(null);
   };
 
   const applyEmployeeFilter = () => {
@@ -271,7 +260,7 @@ const TaskListPage = () => {
       ...prev,
       employee: tempSelections.employee
     }));
-    setDropdownStates(prev => ({ ...prev, employees: false }));
+    setActiveDropdown(null);
   };
 
   const removeFilter = (type, id = null) => {
@@ -364,16 +353,16 @@ const TaskListPage = () => {
  <div className="relative filter-dropdown">
    <button
      onClick={() => toggleDropdown('departments')}
-     className="grid grid-cols-2 gap-[8px]  bg-white border-none text-md text-[#0D0F10]"
+     className={`grid grid-cols-2 gap-[8px] bg-white border-none text-md ${activeDropdown === 'departments' ? 'text-[#8338EC]' : 'text-[#0D0F10]'}`}
    >
      <span>დეპარტამენტი</span>
      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M6.70711 8.29289C6.31658 7.90237 5.68342 7.90237 5.29289 8.29289C4.90237 8.68342 4.90237 9.31658 5.29289 9.70711L11.2929 15.7071C11.6834 16.0976 12.3166 16.0976 12.7071 15.7071L18.7071 9.70711C19.0976 9.31658 19.0976 8.68342 18.7071 8.29289C18.3166 7.90237 17.6834 7.90237 17.2929 8.29289L12 13.5858L6.70711 8.29289Z" fill="#0D0F10"/>
+      <path d="M6.70711 8.29289C6.31658 7.90237 5.68342 7.90237 5.29289 8.29289C4.90237 8.68342 4.90237 9.31658 5.29289 9.70711L11.2929 15.7071C11.6834 16.0976 12.3166 16.0976 12.7071 15.7071L18.7071 9.70711C19.0976 9.31658 19.0976 8.68342 18.7071 8.29289C18.3166 7.90237 17.6834 7.90237 17.2929 8.29289L12 13.5858L6.70711 8.29289Z" fill={activeDropdown === 'departments' ? '#8338EC' : '#0D0F10'}/>
       </svg>
 
    </button>
    
-   {dropdownStates.departments && (
+   {activeDropdown === 'departments' && (
      <div className="absolute z-10 mt-6 w-full bg-white border border-[#8338EC] rounded-[10px] min-w-[500px]">
        <div className="px-[30px] pt-[40px] pb-[20px]">
          <div className="max-h-48 overflow-y-auto">
@@ -395,7 +384,7 @@ const TaskListPage = () => {
          <div className="flex justify-end mt-3">
            <button
              onClick={applyDepartmentFilters}
-             className="px-4 py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
+             className="px-[45px] py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
            >
              არჩევა
            </button>
@@ -408,15 +397,15 @@ const TaskListPage = () => {
  <div className="relative filter-dropdown">
    <button
      onClick={() => toggleDropdown('priorities')}
-     className="grid grid-cols-2 gap-[8px]  bg-white border-none text-md text-[#0D0F10]"
+     className={`grid grid-cols-2 gap-[8px] bg-white border-none text-md ${activeDropdown === 'priorities' ? 'text-[#8338EC]' : 'text-[#0D0F10]'}`}
    >
      <span>პრიორიტეტი</span>
      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M6.70711 8.29289C6.31658 7.90237 5.68342 7.90237 5.29289 8.29289C4.90237 8.68342 4.90237 9.31658 5.29289 9.70711L11.2929 15.7071C11.6834 16.0976 12.3166 16.0976 12.7071 15.7071L18.7071 9.70711C19.0976 9.31658 19.0976 8.68342 18.7071 8.29289C18.3166 7.90237 17.6834 7.90237 17.2929 8.29289L12 13.5858L6.70711 8.29289Z" fill="#0D0F10"/>
+      <path d="M6.70711 8.29289C6.31658 7.90237 5.68342 7.90237 5.29289 8.29289C4.90237 8.68342 4.90237 9.31658 5.29289 9.70711L11.2929 15.7071C11.6834 16.0976 12.3166 16.0976 12.7071 15.7071L18.7071 9.70711C19.0976 9.31658 19.0976 8.68342 18.7071 8.29289C18.3166 7.90237 17.6834 7.90237 17.2929 8.29289L12 13.5858L6.70711 8.29289Z" fill={activeDropdown === 'priorities' ? '#8338EC' : '#0D0F10'}/>
       </svg>
    </button>
    
-   {dropdownStates.priorities && (
+   {activeDropdown === 'priorities' && (
      <div className="absolute z-10 mt-6 w-full bg-white border border-[#8338EC] rounded-[10px] min-w-[500px]">
        <div className="px-[30px] pt-[40px] pb-[20px]">
          <div className="max-h-48 overflow-y-auto">
@@ -429,8 +418,7 @@ const TaskListPage = () => {
                  onChange={() => handleTempPriorityChange(priority.id)}
                  className="mr-2"
                />
-               <label  className="text-md  cursor-pointer flex items-center">
-              
+               <label className="text-md cursor-pointer flex items-center">
                  {priority.name}
                </label>
              </div>
@@ -439,7 +427,7 @@ const TaskListPage = () => {
          <div className="flex justify-end mt-3">
            <button
              onClick={applyPriorityFilters}
-             className="px-4 py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
+             className="px-[45px] py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
            >
              არჩევა
            </button>
@@ -453,15 +441,15 @@ const TaskListPage = () => {
  <div className="relative filter-dropdown">
    <button
      onClick={() => toggleDropdown('employees')}
-     className="grid grid-cols-2 gap-[20px]  bg-white border-none text-md text-[#0D0F10]"
+     className={`grid grid-cols-2 gap-[20px] bg-white border-none text-md ${activeDropdown === 'employees' ? 'text-[#8338EC]' : 'text-[#0D0F10]'}`}
    >
      <span>თანამშრომელი</span>
      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M6.70711 8.29289C6.31658 7.90237 5.68342 7.90237 5.29289 8.29289C4.90237 8.68342 4.90237 9.31658 5.29289 9.70711L11.2929 15.7071C11.6834 16.0976 12.3166 16.0976 12.7071 15.7071L18.7071 9.70711C19.0976 9.31658 19.0976 8.68342 18.7071 8.29289C18.3166 7.90237 17.6834 7.90237 17.2929 8.29289L12 13.5858L6.70711 8.29289Z" fill="#0D0F10"/>
+      <path d="M6.70711 8.29289C6.31658 7.90237 5.68342 7.90237 5.29289 8.29289C4.90237 8.68342 4.90237 9.31658 5.29289 9.70711L11.2929 15.7071C11.6834 16.0976 12.3166 16.0976 12.7071 15.7071L18.7071 9.70711C19.0976 9.31658 19.0976 8.68342 18.7071 8.29289C18.3166 7.90237 17.6834 7.90237 17.2929 8.29289L12 13.5858L6.70711 8.29289Z" fill={activeDropdown === 'employees' ? '#8338EC' : '#0D0F10'}/>
       </svg>
    </button>
    
-   {dropdownStates.employees && (
+   {activeDropdown === 'employees' && (
       <div className="absolute z-10 mt-6 w-full bg-white border border-[#8338EC] rounded-[10px] min-w-[500px]">
       <div className="px-[30px] pt-[40px] pb-[20px]">
          <div className="max-h-48 overflow-y-auto">
@@ -485,7 +473,7 @@ const TaskListPage = () => {
          <div className="flex justify-end mt-3">
            <button
              onClick={applyEmployeeFilter}
-             className="px-4 py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
+             className="px-[45px] py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
            >
              არჩევა
            </button>
@@ -554,7 +542,7 @@ const TaskListPage = () => {
                 )}
                 <button 
  onClick={() => removeFilter('employee')}
- className="ml-1 hover:bg-blue-200 rounded-full w-4 h-4 flex items-center justify-center"
+ className="ml-1 hover:bg-gray-200 rounded-full w-4 h-4 flex items-center justify-center"
 >
  ✕
 </button>
