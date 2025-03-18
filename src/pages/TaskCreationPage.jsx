@@ -156,7 +156,6 @@ useEffect(() => {
         },
       })
       .then(() => {
-        alert("Task created successfully!");
       
         reset({
           title: data.title,
@@ -172,7 +171,12 @@ useEffect(() => {
       });
   };
   
-
+  const [isOpen, setIsOpen] = useState(false);
+  const handleSelect = (empId, empName) => {
+    setSelectedEmployeeState(empId);
+    setValue("responsibleEmployee", empId);
+    setIsOpen(false);
+  };
 return (
   <section>
  <h2 className="text-[34px] font-bold mb-[25px] text-[#212529]">შექმენი ახალი დავალება</h2>
@@ -246,33 +250,72 @@ return (
          
         </div>
 
-        <div>
-          <label className= {`block font-semibold block text-md mb-[6px] ${!selectedDepartment ? 'text-[#ADB5BD] ' : 'text-[#343A40]'}`}>პასუხისმგებელი თანამშრომელი*</label>
-          <select
-          {...register("responsibleEmployee", {
-            required: selectedDepartment ? "Responsible Employee is required" : false,
-          })}
-          className={`w-[550px] p-2 border rounded bg-white ${!selectedDepartment ? 'text-[#ADB5BD] border-[#ADB5BD] cursor-not-allowed' : 'border-[#DEE2E6] cursor-pointer'}`}
-          disabled={!selectedDepartment}
-          value={selectedEmployeeState || ""}
-          onChange={(e) => {
-            setSelectedEmployeeState(e.target.value);
-            setValue("responsibleEmployee", e.target.value);
-          }}
-        >
-          <option value=""></option>
-          {filteredEmployees.map((emp) => {
-            const isDisabled = emp.department.id !== parseInt(selectedDepartment);
-            if (isDisabled) return null; 
-            return (
-              <option key={emp.id} value={emp.id}>
-                {emp.name} {emp.surname}
-              </option>
-            );
-          })}
-        </select>
-          {/* {errors.responsibleEmployee && <p className="text-red-500">{errors.responsibleEmployee.message}</p>} */}
+        {selectedDepartment && (
+              <div>
+                <label className={`block font-semibold block text-md mb-[6px] ${!selectedDepartment ? 'text-[#ADB5BD]' : 'text-[#343A40]'}`}>პასუხისმგებელი თანამშრომელი*</label>
+                <div
+                  className={`w-[550px] p-2 border rounded bg-white min-h-[41px] ${!selectedDepartment ? 'text-[#ADB5BD] border-[#ADB5BD] cursor-not-allowed min-h-[41px]' : 'border-[#DEE2E6] cursor-pointer'}`}
+                  onClick={() => setIsOpen(!isOpen)}
+                  style={{ position: 'relative' }}
+                  disabled={!selectedDepartment}
+                >
+   <div className="flex items-center">
+  {selectedEmployeeState && filteredEmployees.length > 0 ? (
+    filteredEmployees
+      .filter(emp => emp.id === selectedEmployeeState)
+      .map(emp => (
+        <div key={emp.id} className="flex items-center">
+          {emp.avatar && (
+            <img
+              src={emp.avatar}
+              alt={`${emp.name} ${emp.surname}'s avatar`}
+              className="w-8 h-8 rounded-full mr-2"
+            />
+          )}
+          {emp.name} {emp.surname}
         </div>
+      ))
+  ) : (
+    <span className="flex items-end justify-end ml-auto">
+    <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M11.62 5.7207L7.81667 9.52404C7.3675 9.9732 6.6325 9.9732 6.18334 9.52404L2.38 5.7207" stroke="#343A40" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+
+    </span>
+  )}
+</div>
+
+                  {isOpen && (
+                    <ul
+                      className="absolute left-0 right-0 top-10 mt-1 bg-white border border-[#DEE2E6] rounded-[5px] max-h-60 overflow-auto"
+                      style={{ zIndex: 1000 }}
+                    >
+                      {filteredEmployees.map(emp => {
+                        const isDisabled = emp.department.id !== parseInt(selectedDepartment);
+                        if (isDisabled) return null;
+
+                        return (
+                          <li
+                            key={emp.id}
+                            onClick={() => handleSelect(emp.id, `${emp.name} ${emp.surname}`)}
+                            className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
+                          >
+                            {emp.avatar && (
+                              <img
+                                src={emp.avatar}
+                                alt={`${emp.name} ${emp.surname}'s avatar`}
+                                className="w-8 h-8 rounded-full mr-2"
+                              />
+                            )}
+                            {emp.name} {emp.surname}
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            )}
 
         
       </div>
@@ -311,19 +354,19 @@ return (
         <div>
             <label className="block text-md text-[#343A40] font-semibold mb-[6px]">დედლაინი</label>
             <Controller
-              control={control}
-              name="deadline"
-              rules={{ required: "Deadline is required" }}
-              defaultValue={new Date().setDate(new Date().getDate() + 1)}
-              render={({ field }) => (
-                <DatePicker
-                  selected={field.value}
-                  onChange={(date) => field.onChange(date)}
-                  minDate={new Date()}
-                  className="w-[259px] bg-white border border-[#DEE2E6] rounded-[5px] p-2"
-                />
-              )}
-            />
+  control={control}
+  name="deadline"
+  rules={{ required: "Deadline is required" }}
+  defaultValue={new Date().setDate(new Date().getDate() + 1)}
+  render={({ field }) => (
+    <DatePicker
+      selected={field.value ? new Date(field.value) : new Date()}  
+      onChange={(date) => field.onChange(date)}  
+      minDate={new Date()}  
+      className="w-[259px] bg-white border border-[#DEE2E6] rounded-[5px] p-2"
+    />
+  )}
+/>
           </div>
         </div>
      
