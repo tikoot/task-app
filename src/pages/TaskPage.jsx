@@ -279,7 +279,7 @@ const TaskPage = () => {
                 {!comment.reply && (
                   <button
                     onClick={() => setReplyingTo(comment.id)}
-                    className="text-[#8338EC] text-xs mt-2 flex items-center pl-[45px] "
+                    className="text-[#8338EC] text-xs mt-2 flex items-center pl-[45px] cursor-pointer"
                   >
                     <svg className="mr-2" width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_9142_1684)">

@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import Comment from '../assets/comments.png'
+import "../index.css";
 const TaskListPage = () => {
   const [tasks, setTasks] = useState([]);
   const [statuses, setStatuses] = useState([]);
