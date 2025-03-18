@@ -263,7 +263,7 @@ const TaskPage = () => {
 </div>
 
           <div className="mt-[66px]">
-            <h2 className="text-[20px] font-semibold mb-[40px]">კომენტარები</h2>
+            <h2 className="text-[20px] font-semibold mb-[40px] flex items-center">კომენტარები <span className="bg-[#8338EC] rounded-[30px] text-white text-sm px-[11px] py-1 ml-[7px]">{comments.length}</span></h2>
             {[...comments].reverse().map((comment) => (
               <div key={comment.id} className="pb-4 mt-4">
                 <div className="flex ">
