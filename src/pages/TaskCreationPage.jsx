@@ -3,6 +3,7 @@ import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
+import EmployeModal from "../components/EmployeModal";
 
 const TaskCreationPage = () => {
   const {
@@ -177,6 +178,11 @@ useEffect(() => {
     setValue("responsibleEmployee", empId);
     setIsOpen(false);
   };
+
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
 return (
   <section>
  <h2 className="text-[34px] font-bold mb-[25px] text-[#212529]">შექმენი ახალი დავალება</h2>
@@ -290,6 +296,16 @@ return (
                       className="absolute left-0 right-0 top-10 mt-1 bg-white border border-[#DEE2E6] rounded-[5px] max-h-60 overflow-auto"
                       style={{ zIndex: 1000 }}
                     >
+                       <li className="flex items-center p-2 hover:bg-gray-100 cursor-pointer">
+                       <button  onClick={openModal} className=" text-[#8338EC] cursor-pointer rounded-[5px] p-[15px]  text-md flex items-center">
+                       <svg className="mr-2" width="18" height="18" viewBox="0 0 18 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <rect x="0.75" y="0.75" width="16.5" height="16.5" rx="8.25" stroke="#8338EC" stroke-width="1.5"/>
+                          <path d="M9.576 8.456H13.176V9.656H9.576V13.304H8.256V9.656H4.656V8.456H8.256V4.808H9.576V8.456Z" fill="#8338EC"/>
+                          </svg>
+
+                       დაამატე თანამშრომელი
+        </button>
+          </li>
                       {filteredEmployees.map(emp => {
                         const isDisabled = emp.department.id !== parseInt(selectedDepartment);
                         if (isDisabled) return null;
@@ -298,8 +314,9 @@ return (
                           <li
                             key={emp.id}
                             onClick={() => handleSelect(emp.id, `${emp.name} ${emp.surname}`)}
-                            className="flex items-center p-2 hover:bg-gray-100 cursor-pointer"
+                            className="flex items-center pl-[15px] pt-2 pb-2 pr-2 hover:bg-gray-100 cursor-pointer"
                           >
+                           
                             {emp.avatar && (
                               <img
                                 src={emp.avatar}
@@ -311,6 +328,7 @@ return (
                           </li>
                         );
                       })}
+                      
                     </ul>
                   )}
                 </div>
@@ -378,8 +396,12 @@ return (
       </div>
     </form>
   </div>
+  <EmployeModal 
+        isOpen={isModalOpen} 
+        onClose={closeModal} 
+      />
   </section>
- 
+
 );
 };
 
