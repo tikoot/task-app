@@ -354,7 +354,7 @@ const TaskListPage = () => {
  <div className="relative filter-dropdown">
    <button
      onClick={() => toggleDropdown('departments')}
-     className={`grid grid-cols-2 gap-[8px] bg-white border-none text-md ${activeDropdown === 'departments' ? 'text-[#8338EC]' : 'text-[#0D0F10]'}`}
+     className={`grid grid-cols-2 gap-[8px] bg-white cursor-pointer border-none text-md ${activeDropdown === 'departments' ? 'text-[#8338EC]' : 'text-[#0D0F10]'}`}
    >
      <span>დეპარტამენტი</span>
      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -398,7 +398,7 @@ const TaskListPage = () => {
  <div className="relative filter-dropdown">
    <button
      onClick={() => toggleDropdown('priorities')}
-     className={`grid grid-cols-2 gap-[8px] bg-white border-none text-md ${activeDropdown === 'priorities' ? 'text-[#8338EC]' : 'text-[#0D0F10]'}`}
+     className={`grid grid-cols-2 gap-[8px] cursor-pointer bg-white border-none text-md ${activeDropdown === 'priorities' ? 'text-[#8338EC]' : 'text-[#0D0F10]'}`}
    >
      <span>პრიორიტეტი</span>
      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -442,7 +442,7 @@ const TaskListPage = () => {
  <div className="relative filter-dropdown">
    <button
      onClick={() => toggleDropdown('employees')}
-     className={`grid grid-cols-2 gap-[20px] bg-white border-none text-md ${activeDropdown === 'employees' ? 'text-[#8338EC]' : 'text-[#0D0F10]'}`}
+     className={`grid grid-cols-2 gap-[20px] cursor-pointer bg-white border-none text-md ${activeDropdown === 'employees' ? 'text-[#8338EC]' : 'text-[#0D0F10]'}`}
    >
      <span>თანამშრომელი</span>
      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -497,7 +497,7 @@ const TaskListPage = () => {
                   {dept.name}
                   <button 
                     onClick={() => removeFilter('departments', deptId)}
-                    className="ml-1  rounded-full w-4 h-4 flex items-center justify-center"
+                    className="ml-1  rounded-full w-4 h-4 flex items-center justify-center cursor-pointer"
                   >
                     ✕
                   </button>
@@ -518,7 +518,7 @@ const TaskListPage = () => {
                   {priority.name}
                   <button 
                     onClick={() => removeFilter('priorities', prioId)}
-                    className="ml-1 hover:bg-gray-200 rounded-full w-4 h-4 flex items-center justify-center"
+                    className="ml-1  rounded-full w-4 h-4 flex items-center justify-center cursor-pointer"
                   >
                     ✕
                   </button>
@@ -543,7 +543,7 @@ const TaskListPage = () => {
                 )}
                 <button 
  onClick={() => removeFilter('employee')}
- className="ml-1 hover:bg-gray-200 rounded-full w-4 h-4 flex items-center justify-center"
+ className="ml-1  rounded-full w-4 h-4 flex items-center justify-center cursor-pointer"
 >
  ✕
 </button>
@@ -551,7 +551,7 @@ const TaskListPage = () => {
 )}
  <button
               onClick={clearFilters}
-              className="text-sm text-[#343A40]"
+              className="text-sm text-[#343A40] cursor-pointer"
             >
               გასუფთავება
             </button>

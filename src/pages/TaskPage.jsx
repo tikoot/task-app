@@ -267,7 +267,7 @@ const TaskPage = () => {
             />
             <button
               onClick={handleCommentSubmit}
-              className="absolute bottom-5 right-3 cursor-pointer bg-[#8338EC] text-white px-[18px] py-2 rounded-[20px] disabled:opacity-50"
+              className="absolute bottom-5 right-3 cursor-pointer bg-[#8338EC] text-white px-[18px] py-2 rounded-[20px] disabled:opacity-50 hover:bg-[#B588F4] "
             >
               დააკომენტარე
             </button>
@@ -313,7 +313,7 @@ const TaskPage = () => {
                     <textarea
                       value={newReply}
                       onChange={(e) => setNewReply(e.target.value)}
-                      className="w-full border rounded-[10px] border-[#ADB5BD] bg-white p-3 resize-none text-[#898989] text-sm"
+                      className="w-full border rounded-[10px] border-[#ADB5BD] bg-white p-3 resize-none text-[#898989] text-sm  "
                       placeholder="დაწერე პასუხი"
                     />
                     <div className="flex justify-end mt-2">
@@ -325,7 +325,7 @@ const TaskPage = () => {
                       </button>
                       <button
                         onClick={() => handleReplySubmit(comment.id)}
-                        className="bg-[#8338EC] text-white px-3 py-1 rounded-[20px]"
+                        className="bg-[#8338EC] text-white px-3 py-1 rounded-[20px] hover:bg-[#B588F4]"
                       >
                         პასუხი
                       </button>
