@@ -1,4 +1,7 @@
 @import "tailwindcss";
+* {
+  font-family: 'FiraGO', sans-serif;
+}
 
 input[type="checkbox"] {
     -webkit-appearance: none;

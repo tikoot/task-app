@@ -186,7 +186,7 @@ return (
       <div className="grid grid-cols-2 gap-x-[161px]">
       <div className="space-y-8">
       <div>
-          <label className="block text-md text-[#343A40] font-semibold mb-[6px]">
+          <label className="block text-md text-[#343A40]  mb-[6px]">
             სათაური*
           </label>
           <input
@@ -214,7 +214,7 @@ return (
     </div>
 
         <div>
-          <label className="block text-md text-[#343A40] font-semibold mb-[6px]">აღწერა</label>
+          <label className="block text-md text-[#343A40]  mb-[6px]">აღწერა</label>
           <textarea {...register("description", {
               minLength: { value: 4, message: "Description should be at least 4 words" },
               maxLength: { value: 255, message: "Description should be less than 255 characters" }
@@ -239,7 +239,7 @@ return (
 
       <div className="space-y-8">
         <div>
-          <label className="block text-md text-[#343A40] font-semibold mb-[6px]">დეპარტამენტი*</label>
+          <label className="block text-md text-[#343A40] mb-[6px]">დეპარტამენტი*</label>
           <select {...register("department", { required: "Department is required" })}
             className="w-[550px] bg-white border border-[#DEE2E6] rounded-[5px] p-2">
             <option value="">Select Department</option>
@@ -252,7 +252,7 @@ return (
 
         {selectedDepartment && (
               <div>
-                <label className={`block font-semibold block text-md mb-[6px] ${!selectedDepartment ? 'text-[#ADB5BD]' : 'text-[#343A40]'}`}>პასუხისმგებელი თანამშრომელი*</label>
+                <label className={`block  block text-md mb-[6px] ${!selectedDepartment ? 'text-[#ADB5BD]' : 'text-[#343A40]'}`}>პასუხისმგებელი თანამშრომელი*</label>
                 <div
                   className={`w-[550px] p-2 border rounded bg-white min-h-[41px] ${!selectedDepartment ? 'text-[#ADB5BD] border-[#ADB5BD] cursor-not-allowed min-h-[41px]' : 'border-[#DEE2E6] cursor-pointer'}`}
                   onClick={() => setIsOpen(!isOpen)}
@@ -326,7 +326,7 @@ return (
         <div className="grid grid-cols-2 gap-x-[161px]">
         <div className="grid grid-cols-2 gap-x-[32px] max-w-[550ps] ">
           <div className="w-[259px] ">
-            <label className="block text-md text-[#343A40] font-semibold mb-[6px]">პრიორიტეტი*</label>
+            <label className="block text-md text-[#343A40]  mb-[6px]">პრიორიტეტი*</label>
             <select {...register("priority", { required: "Priority is required" })}
               className="w-[259px] bg-white border border-[#DEE2E6] rounded-[5px] p-2">
               {priorities.map((priority) => (
@@ -339,7 +339,7 @@ return (
           </div>
 
           <div className="w-[259px]">
-            <label className="block text-md text-[#343A40] font-semibold mb-[6px]">სტატუსი*</label>
+            <label className="block text-md text-[#343A40]  mb-[6px]">სტატუსი*</label>
             <select {...register("status", { required: "Status is required" })}
               className="w-[259px] bg-white border border-[#DEE2E6] rounded-[5px] p-2">
               {statuses.map((status) => (
@@ -352,7 +352,7 @@ return (
           </div>
         </div>
         <div>
-            <label className="block text-md text-[#343A40] font-semibold mb-[6px]">დედლაინი</label>
+            <label className="block text-md text-[#343A40]  mb-[6px]">დედლაინი</label>
             <Controller
   control={control}
   name="deadline"
