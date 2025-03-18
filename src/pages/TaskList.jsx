@@ -451,37 +451,37 @@ const TaskListPage = () => {
    </button>
    
    {activeDropdown === 'employees' && (
-      <div className="absolute z-10 mt-6 w-full bg-white border border-[#8338EC] rounded-[10px] min-w-[500px]">
-      <div className="px-[30px] pt-[40px] pb-[20px]">
-         <div className="max-h-48 overflow-y-auto">
-           {employees.map(employee => (
-             <div key={employee.id} className="flex items-center mb-2">
-               <input
-                 type="radio"
-                 id={`emp-${employee.id}`}
-                 name="employee"
-                 checked={tempSelections.employee === employee.id}
-                 onChange={() => handleTempEmployeeChange(employee.id)}
-                 className="mr-2"
-               />
-               <label htmlFor={`emp-${employee.id}`} className="text-sm cursor-pointer flex items-center">
-                 <img src={employee.avatar} alt={`${employee.name} ${employee.surname}`} className="w-6 h-6 rounded-full mr-2" />
-                 {employee.name} {employee.surname}
-               </label>
-             </div>
-           ))}
-         </div>
-         <div className="flex justify-end mt-3">
-           <button
-             onClick={applyEmployeeFilter}
-             className="px-[45px] hover:bg-[#B588F4]  py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
-           >
-             არჩევა
-           </button>
-         </div>
-       </div>
-     </div>
-   )}
+  <div className="absolute z-10 mt-6 w-full bg-white border border-[#8338EC] rounded-[10px] min-w-[500px]">
+    <div className="px-[30px] pt-[40px] pb-[20px]">
+      <div className="max-h-48 overflow-y-auto">
+        {employees.map(employee => (
+          <div key={employee.id} className="flex items-center mb-2">
+            <input
+              type="radio"
+              id={`emp-${employee.id}`}
+              name="employee"
+              checked={tempSelections.employee === employee.id}
+              onChange={() => handleTempEmployeeChange(employee.id)}
+              className="mr-2 custom-radio"
+            />
+            <label htmlFor={`emp-${employee.id}`} className="text-sm cursor-pointer flex items-center">
+              <img src={employee.avatar} alt={`${employee.name} ${employee.surname}`} className="w-6 h-6 rounded-full mr-2" />
+              {employee.name} {employee.surname}
+            </label>
+          </div>
+        ))}
+      </div>
+      <div className="flex justify-end mt-3">
+        <button
+          onClick={applyEmployeeFilter}
+          className="px-[45px] hover:bg-[#B588F4] py-1 bg-[#8338EC] text-white rounded-[20px] text-sm"
+        >
+          არჩევა
+        </button>
+      </div>
+    </div>
+  </div>
+)}
  </div>
 </div>
 {(filters.departments.length > 0 || filters.priorities.length > 0 || filters.employee) && (

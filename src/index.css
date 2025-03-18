@@ -3,13 +3,43 @@
   font-family: 'FiraGO', sans-serif;
 }
 
-input[type="checkbox"] {
+.custom-radio {
+  -webkit-appearance: none;
+  -moz-appearance: none;   
+  appearance: none;         
+  width: 18px;
+  height: 18px;
+  border: 2px solid #212529;
+  border-radius: 4px; 
+  background-color: white;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.custom-radio:checked {
+  border-color: #212529;
+}
+
+.custom-radio:checked::after {
+  content: '';
+  position: absolute;
+  width: 5px;
+  height: 10px;
+  border: solid #212529;
+  border-width: 0 2px 2px 0;
+  top: 1px;
+  left: 5px;
+  transform: rotate(45deg);
+}
+
+input[type="checkbox"]{
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     width: 18px;
     height: 18px;
-    border: 2px solid #212529;
+    border: 2px solid ;
     border-radius: 3px;
     background-color: white;
     display: inline-block;
