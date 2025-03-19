@@ -44,6 +44,7 @@ const TaskPage = () => {
           };
         });
         
+        
         setComments(processedComments);
       } catch (error) {
         console.error("Error fetching comments:", error);
@@ -278,7 +279,7 @@ const TaskPage = () => {
               კომენტარები <span className="bg-[#8338EC] rounded-[30px] text-white text-sm px-[11px] py-1 ml-[7px]">{comments.length}</span>
             </h2>
             
-            {comments.map((comment) => (
+            {[...comments].reverse().map((comment) => (
               <div key={comment.id} className="pb-4 mt-4">
                 <div className="flex">
                   <img src={comment.author_avatar} alt="" className="w-8 h-8 rounded-full mr-[12px] mt-2"/>
