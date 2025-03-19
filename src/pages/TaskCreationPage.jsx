@@ -197,8 +197,8 @@ return (
           </label>
           <input
             {...register("title", {
-              required: "Title is required",
-              minLength: { value: 2, message: "Title must be at least 2 characters" },
+              required: "სათაური სავალდებულოა",
+              minLength: { value: 3, message: "Title must be at least 3 characters" },
               maxLength: { value: 255, message: "Title must be less than 255 characters" }
             })}
             type="text"
@@ -208,15 +208,17 @@ return (
             className={`text-[10px] ${
               errors.title
                 ? "text-red-500"
-                : watch("title") && watch("title").length >= 2
+                : watch("title") && watch("title").length >= 3
                 ? "text-[#08A508]"
                 : "text-[#6C757D]"
             }`}
           >
-            მინიმუმ 2 სიმბოლო
+
+            მინიმუმ 3 სიმბოლო
             <br />
             მაქსიმუმ 255 სიმბოლო
           </p>
+          {errors.title && <p className="text-red-500 text-[10px]">{errors.title.message}</p>}
     </div>
 
         <div>
@@ -236,7 +238,7 @@ return (
                 : "text-[#6C757D]"
             }`}
           >
-            მინიმუმ 2 სიმბოლო
+            მინიმუმ 4 სიმბოლო
             <br />
             მაქსიმუმ 255 სიმბოლო
           </p>
@@ -246,14 +248,14 @@ return (
       <div className="space-y-8">
         <div>
           <label className="block text-md text-[#343A40] mb-[6px]">დეპარტამენტი*</label>
-          <select {...register("department", { required: "Department is required" })}
+          <select {...register("department", { required: "დეპარტამენტის არჩევა სავალდებულოა" })}
             className="w-[550px] bg-white border border-[#DEE2E6] rounded-[5px] p-2">
             <option value="">Select Department</option>
             {departments.map((dept) => (
               <option key={dept.id} value={dept.id}>{dept.name}</option>
             ))}
           </select>
-         
+          {errors.department && <p className="text-red-500 text-[10px]">{errors.department.message}</p>}
         </div>
 
         {selectedDepartment && (
@@ -345,7 +347,7 @@ return (
         <div className="grid grid-cols-2 gap-x-[32px] max-w-[550ps] ">
           <div className="w-[259px] ">
             <label className="block text-md text-[#343A40]  mb-[6px]">პრიორიტეტი*</label>
-            <select {...register("priority", { required: "Priority is required" })}
+            <select {...register("priority", { required: "პრიორიტეტი სავალდებულოა" })}
               className="w-[259px] bg-white border border-[#DEE2E6] rounded-[5px] p-2">
               {priorities.map((priority) => (
                 <option key={priority.id} value={priority.id} selected={priority.id === 2}>
@@ -358,7 +360,7 @@ return (
 
           <div className="w-[259px]">
             <label className="block text-md text-[#343A40]  mb-[6px]">სტატუსი*</label>
-            <select {...register("status", { required: "Status is required" })}
+            <select {...register("status", { required: "სტატუსი სავალდებულოა" })}
               className="w-[259px] bg-white border border-[#DEE2E6] rounded-[5px] p-2">
               {statuses.map((status) => (
                 <option key={status.id} value={status.id} selected={status.id === 1}>
@@ -366,7 +368,7 @@ return (
                 </option>
               ))}
             </select>
-            {errors.status && <p className="text-red-500">{errors.status.message}</p>}
+            {errors.status && <p className="text-red-500 text-[10px]">{errors.status.message}</p>}
           </div>
         </div>
         <div>
@@ -374,7 +376,7 @@ return (
             <Controller
   control={control}
   name="deadline"
-  rules={{ required: "Deadline is required" }}
+  rules={{ required: "თარიღი სავალდებულოა" }}
   defaultValue={new Date().setDate(new Date().getDate() + 1)}
   render={({ field }) => (
     <DatePicker
