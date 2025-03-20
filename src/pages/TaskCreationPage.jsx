@@ -237,6 +237,15 @@ const TaskCreationPage = () => {
     };
   }, []);
 
+  const addEmployeeToList = (newEmployee) => {
+    setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
+
+    filterEmployeesByDepartment([...employees, newEmployee]);
+
+    closeModal();
+  };
+
+  
   return (
     <section>
       <h2 className="text-[34px] font-bold mb-[25px] text-[#212529]">შექმენი ახალი დავალება</h2>
@@ -450,6 +459,7 @@ const TaskCreationPage = () => {
       <EmployeModal 
         isOpen={isModalOpen} 
         onClose={closeModal} 
+        onAddEmployee={addEmployeeToList}  
       />
     </section>
   );

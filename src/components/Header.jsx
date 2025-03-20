@@ -6,7 +6,14 @@ import EmployeModal from "./EmployeModal";
 
 function Header() {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+  const [employees, setEmployees] = useState([]);
+
+
+  const addEmployeeToList = (newEmployee) => {
+    setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
+    closeModal(); 
+  };
+
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
   return (
@@ -26,6 +33,7 @@ function Header() {
       <EmployeModal 
         isOpen={isModalOpen} 
         onClose={closeModal} 
+        addEmployee={addEmployeeToList}
       />
     </header>
   );

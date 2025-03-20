@@ -3,7 +3,7 @@ import axios from "axios";
 import close from "../assets/close.png";
 import trash from "../assets/trash.png";
 
-const EmployeModal = ({ isOpen, onClose }) => {
+const EmployeModal = ({ isOpen, onClose, onAddEmployee }) => {
   const [departments, setDepartments] = useState([]);
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
@@ -11,7 +11,6 @@ const EmployeModal = ({ isOpen, onClose }) => {
   const [avatar, setAvatar] = useState(null);
   const [avatarFile, setAvatarFile] = useState(null);
   const token = "9e76e164-1b7c-49c4-a4f5-7376c746103f";
-
 
   useEffect(() => {
     axios
@@ -22,15 +21,13 @@ const EmployeModal = ({ isOpen, onClose }) => {
       .catch((error) => console.error("Error:", error));
   }, []);
 
-
   const handleAvatarChange = (e) => {
     const file = e.target.files[0];
     if (file) {
-      setAvatar(URL.createObjectURL(file)); 
-      setAvatarFile(file); 
+      setAvatar(URL.createObjectURL(file));
+      setAvatarFile(file);
     }
   };
-
 
   const removeAvatar = (e) => {
     e.stopPropagation();
@@ -39,38 +36,40 @@ const EmployeModal = ({ isOpen, onClose }) => {
   };
 
   const handleSubmit = async () => {
-   
     try {
-    
       const formData = new FormData();
       formData.append("name", name);
       formData.append("surname", surname);
       formData.append("department_id", departmentId);
-      formData.append("avatar", avatarFile)
+      formData.append("avatar", avatarFile);
 
-
-      await axios.post(
+      const response = await axios.post(
         "https://momentum.redberryinternship.ge/api/employees",
         formData,
         {
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data", 
+            "Content-Type": "multipart/form-data",
           },
         }
       );
+
+      const newEmployee = response.data;
+      onAddEmployee(newEmployee); 
+
       setName("");
       setSurname("");
       setDepartmentId("");
       setAvatar(null);
       setAvatarFile(null);
-      onClose();
+      closeModal();
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
   if (!isOpen) return null;
+
 
   return (
     <div
