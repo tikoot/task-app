@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"; 
+import { useState, useEffect, useRef  } from "react"; 
 import { useForm, Controller } from "react-hook-form";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -8,6 +8,7 @@ import EmployeModal from "../components/EmployeModal";
 const TaskCreationPage = () => {
   const formStorageKey = 'taskFormValues';
   const employeeStorageKey = 'selectedEmployeeState';
+  const dropdownRef = useRef(null);
   
   const getStoredFormValues = () => {
     try {
@@ -50,7 +51,8 @@ const TaskCreationPage = () => {
   const [filteredEmployees, setFilteredEmployees] = useState([]);
   const [priorities, setPriorities] = useState([]);
   const [statuses, setStatuses] = useState([]);
-
+  const [isEmployeeDropdownOpen, setIsEmployeeDropdownOpen] = useState(false);
+  const employeeDropdownRef = useRef(null);
   const [token, setToken] = useState("9e76e164-1b7c-49c4-a4f5-7376c746103f");
 
   const selectedDepartment = watch("department");
@@ -219,7 +221,7 @@ const TaskCreationPage = () => {
   const handleSelect = (empId, empName) => {
     setSelectedEmployeeState(empId);
     setValue("responsibleEmployee", empId);
-    setIsOpen(false);
+    setIsEmployeeDropdownOpen(false);
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -245,7 +247,22 @@ const TaskCreationPage = () => {
     closeModal();
   };
 
-  
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (employeeDropdownRef.current && !employeeDropdownRef.current.contains(event.target)) {
+        setIsEmployeeDropdownOpen(false);
+      }
+    }
+    
+    if (isEmployeeDropdownOpen) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+    
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [isEmployeeDropdownOpen]);
   return (
     <section>
       <h2 className="text-[34px] font-bold mb-[25px] text-[#212529]">შექმენი ახალი დავალება</h2>
@@ -321,40 +338,43 @@ const TaskCreationPage = () => {
             </div>
 
             {selectedDepartment && (
-              <div>
-                <label className={`block  block text-md mb-[6px] ${!selectedDepartment ? 'text-[#ADB5BD]' : 'text-[#343A40]'}`}>პასუხისმგებელი თანამშრომელი*</label>
-                <div
-                  className={`w-[550px] p-2 border rounded bg-white min-h-[41px] ${!selectedDepartment ? 'text-[#ADB5BD] border-[#ADB5BD] cursor-not-allowed min-h-[41px]' : 'border-[#DEE2E6] cursor-pointer'}`}
-                  onClick={() => setIsOpen(!isOpen)}
-                  style={{ position: 'relative' }}
-                  disabled={!selectedDepartment}
-                >
-                  <div className="flex items-center">
-                    {selectedEmployeeState && filteredEmployees.length > 0 ? (
-                      filteredEmployees
-                        .filter(emp => emp.id === selectedEmployeeState)
-                        .map(emp => (
-                          <div key={emp.id} className="flex items-center">
-                            {emp.avatar && (
-                              <img
-                                src={emp.avatar}
-                                alt={`${emp.name} ${emp.surname}'s avatar`}
-                                className="w-8 h-8 rounded-full mr-2"
-                              />
-                            )}
-                            {emp.name} {emp.surname}
-                          </div>
-                        ))
-                    ) : (
-                      <span className="flex items-end justify-end ml-auto">
-                        <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
-                          <path d="M11.62 5.7207L7.81667 9.52404C7.3675 9.9732 6.6325 9.9732 6.18334 9.52404L2.38 5.7207" stroke="#343A40" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
-                      </span>
+      <div>
+        <label className={`block text-md mb-[6px] ${!selectedDepartment ? 'text-[#ADB5BD]' : 'text-[#343A40]'}`}>
+          პასუხისმგებელი თანამშრომელი*
+        </label>
+        <div
+          ref={employeeDropdownRef} // Add this ref here
+          className={`w-[550px] p-2 border rounded bg-white min-h-[41px] ${!selectedDepartment ? 'text-[#ADB5BD] border-[#ADB5BD] cursor-not-allowed min-h-[41px]' : 'border-[#DEE2E6] cursor-pointer'}`}
+          onClick={() => setIsEmployeeDropdownOpen(!isEmployeeDropdownOpen)}
+          style={{ position: 'relative' }}
+          disabled={!selectedDepartment}
+        >
+          <div className="flex items-center">
+            {selectedEmployeeState && filteredEmployees.length > 0 ? (
+              filteredEmployees
+                .filter(emp => emp.id === selectedEmployeeState)
+                .map(emp => (
+                  <div key={emp.id} className="flex items-center">
+                    {emp.avatar && (
+                      <img
+                        src={emp.avatar}
+                        alt={`${emp.name} ${emp.surname}'s avatar`}
+                        className="w-8 h-8 rounded-full mr-2"
+                      />
                     )}
+                    {emp.name} {emp.surname}
                   </div>
+                ))
+            ) : (
+              <span className="flex items-end justify-end ml-auto">
+                <svg width="14" height="15" viewBox="0 0 14 15" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M11.62 5.7207L7.81667 9.52404C7.3675 9.9732 6.6325 9.9732 6.18334 9.52404L2.38 5.7207" stroke="#343A40" stroke-width="1.5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            )}
+          </div>
 
-                  {isOpen && (
+                  {isEmployeeDropdownOpen  && (
                     <ul
                       className="absolute left-0 right-0 top-10 mt-1 bg-white border border-[#DEE2E6] rounded-[5px] max-h-60 overflow-auto"
                       style={{ zIndex: 1000 }}

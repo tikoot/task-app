@@ -34,7 +34,7 @@ const EmployeModal = ({ isOpen, onClose, onAddEmployee }) => {
     setAvatar(null);
     setAvatarFile(null);
   };
-
+ console.log(onClose)
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
@@ -62,7 +62,8 @@ const EmployeModal = ({ isOpen, onClose, onAddEmployee }) => {
       setDepartmentId("");
       setAvatar(null);
       setAvatarFile(null);
-      closeModal();
+
+      onClose()
     } catch (error) {
       console.error("Error:", error);
     }

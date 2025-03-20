@@ -33,7 +33,7 @@ function Header() {
       <EmployeModal 
         isOpen={isModalOpen} 
         onClose={closeModal} 
-        addEmployee={addEmployeeToList}
+        onAddEmployee={addEmployeeToList}
       />
     </header>
   );
