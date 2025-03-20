@@ -67,6 +67,12 @@ const TaskCreationPage = () => {
 
   const formValues = watch();
   useEffect(() => {
+    const savedEmployee = localStorage.getItem('selectedEmployee');
+    if (savedEmployee) {
+      setSelectedEmployeeState(JSON.parse(savedEmployee));
+    }
+  }, []);
+  useEffect(() => {
     try {
       const valuesToStore = {...formValues};
       
@@ -77,13 +83,18 @@ const TaskCreationPage = () => {
       localStorage.setItem(formStorageKey, JSON.stringify(valuesToStore));
       
       if (selectedEmployeeState) {
-        localStorage.setItem(employeeStorageKey, selectedEmployeeState);
+        localStorage.setItem('selectedEmployee', JSON.stringify(selectedEmployeeState));
       }
     } catch (error) {
       console.error('Error saving form values:', error);
     }
   }, [formValues, selectedEmployeeState]);
 
+  const handleEmployeeSelect = (employee) => {
+    setSelectedEmployeeState(employee);
+    setIsEmployeeDropdownOpen(false);
+  };
+  
   useEffect(() => {
     axios
       .get("https://momentum.redberryinternship.ge/api/departments", {
@@ -328,7 +339,8 @@ const TaskCreationPage = () => {
             <div>
               <label className="block text-md text-[#343A40] mb-[6px]">დეპარტამენტი*</label>
               <select {...register("department", { required: "დეპარტამენტის არჩევა სავალდებულოა" })}
-                className="w-[550px] bg-white border border-[#DEE2E6] rounded-[5px] p-2">
+                className="w-[550px] bg-white border border-[#DEE2E6] rounded-[5px] p-2"
+                value={formValues.department || ''}>
                 <option value="">Select Department</option>
                 {departments.map((dept) => (
                   <option key={dept.id} value={dept.id}>{dept.name}</option>
@@ -343,7 +355,8 @@ const TaskCreationPage = () => {
           პასუხისმგებელი თანამშრომელი*
         </label>
         <div
-          ref={employeeDropdownRef} // Add this ref here
+         
+          ref={employeeDropdownRef} 
           className={`w-[550px] p-2 border rounded bg-white min-h-[41px] ${!selectedDepartment ? 'text-[#ADB5BD] border-[#ADB5BD] cursor-not-allowed min-h-[41px]' : 'border-[#DEE2E6] cursor-pointer'}`}
           onClick={() => setIsEmployeeDropdownOpen(!isEmployeeDropdownOpen)}
           style={{ position: 'relative' }}
@@ -426,7 +439,7 @@ const TaskCreationPage = () => {
               <div className="w-[259px] ">
                 <label className="block text-md text-[#343A40]  mb-[6px]">პრიორიტეტი*</label>
                 <select {...register("priority", { required: "პრიორიტეტი სავალდებულოა" })}
-                  className="w-[259px] bg-white border border-[#DEE2E6] rounded-[5px] p-2">
+                  className="w-[259px] bg-white border border-[#DEE2E6] rounded-[5px] p-2"  value={formValues.priority || ''}>
                   {priorities.map((priority) => (
                     <option key={priority.id} value={priority.id} selected={priority.id === 2}>
                       {priority.name}
@@ -439,6 +452,7 @@ const TaskCreationPage = () => {
               <div className="w-[259px]">
                 <label className="block text-md text-[#343A40]  mb-[6px]">სტატუსი*</label>
                 <select {...register("status", { required: "სტატუსი სავალდებულოა" })}
+                  value={formValues.status || ''}
                   className="w-[259px] bg-white border border-[#DEE2E6] rounded-[5px] p-2">
                   {statuses.map((status) => (
                     <option key={status.id} value={status.id} selected={status.id === 1}>
