@@ -94,7 +94,7 @@ const TaskCreationPage = () => {
     setSelectedEmployeeState(employee);
     setIsEmployeeDropdownOpen(false);
   };
-  
+
   useEffect(() => {
     axios
       .get("https://momentum.redberryinternship.ge/api/departments", {
@@ -221,6 +221,7 @@ const TaskCreationPage = () => {
           status: data.status,
           priority: data.priority,
         }); 
+        window.location.href = '/';
       })
       .catch((error) => {
         console.error("Error creating task:", error);
