@@ -8,7 +8,8 @@ const EmployeModal = ({ isOpen, onClose, onAddEmployee }) => {
   const [departments, setDepartments] = useState([]);
   const token = "9e76e164-1b7c-49c4-a4f5-7376c746103f";
   const [avatar, setAvatar] = useState(null);
-  const [avatarFile, setAvatarFile] = useState(null)
+  const [avatarFile, setAvatarFile] = useState(null);
+
 
   useEffect(() => {
     axios
@@ -19,13 +20,21 @@ const EmployeModal = ({ isOpen, onClose, onAddEmployee }) => {
       .catch((error) => console.error("Error:", error));
   }, []);
 
-  const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm();
+  const { register, handleSubmit, setValue, watch, formState: { errors }, reset } = useForm({
+    defaultValues: {
+      name: '',
+      surname: '',
+      avatar: null,
+      departmentId: '',
+    },
+  });
 
-  const handleAvatarChange = (e) => {
+
+  const handleAvatarChange = (e) => {  
     const file = e.target.files[0];
     if (file) {
       setAvatar(URL.createObjectURL(file));
-      setAvatarFile(file); 
+      setAvatarFile(file);
       setValue("avatar", file);
     }
   };
@@ -34,8 +43,9 @@ const EmployeModal = ({ isOpen, onClose, onAddEmployee }) => {
   const removeAvatar = () => {
     setAvatar(null);
     setAvatarFile(null);
-    setValue("avatar", null); 
+    setValue("avatar", null);
   };
+
 
   const onSubmit = async (data) => {
     try {
@@ -43,8 +53,14 @@ const EmployeModal = ({ isOpen, onClose, onAddEmployee }) => {
       formData.append("name", data.name);
       formData.append("surname", data.surname);
       formData.append("department_id", data.departmentId);
-      formData.append("avatar", data.avatarFile);
-
+      
+      if (avatarFile) {
+        formData.append("avatar", avatarFile); 
+      } else {
+        console.error("No avatar selected.");
+        return;
+      }
+  
       const response = await axios.post(
         "https://momentum.redberryinternship.ge/api/employees",
         formData,
@@ -55,19 +71,32 @@ const EmployeModal = ({ isOpen, onClose, onAddEmployee }) => {
           },
         }
       );
-
+  
       const newEmployee = response.data;
-      onAddEmployee(newEmployee); 
-
-      reset(); 
-
-      onClose(); 
+      onAddEmployee(newEmployee);
+  
+      reset();
+      onClose();
     } catch (error) {
       console.error("Error:", error);
     }
   };
 
+  useEffect(() => {
+    if (isOpen) {
+     
+      reset({
+        name: '',
+        surname: '',
+        avatar: null,
+        departmentId: '',
+      });
+      setAvatar(null);
+      setAvatarFile(null);
+    }
+  }, [isOpen, reset]); 
   if (!isOpen) return null;
+
 
   return (
     <div
