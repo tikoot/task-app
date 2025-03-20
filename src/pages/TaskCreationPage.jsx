@@ -309,7 +309,7 @@ const TaskCreationPage = () => {
                 <br />
                 მაქსიმუმ 255 სიმბოლო
               </p>
-              {errors.title && <p className="text-red-500 text-[10px]">{errors.title.message}</p>}
+             
         </div>
 
             <div>
