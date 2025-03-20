@@ -335,7 +335,7 @@ const TaskPage = () => {
                 )}
                 {comment.replies && comment.replies.length > 0 && (
                   <div className="ml-10 mt-4">
-                    {comment.replies.map((reply) => (
+                    {[...comment.replies].reverse().map((reply) => (
                       <div key={reply.id} className="mt-3 pb-3">
                         <div className="flex">
                           <img src={reply.author_avatar} alt="" className="w-8 h-8 rounded-full mr-[12px] mt-2"/>
