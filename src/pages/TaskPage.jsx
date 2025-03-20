@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import frame2 from "../assets/Frame2.png";
+import frame2 from "../assets/frame2.png";
 import piechart from "../assets/piechart.png";
 import calendar from "../assets/calendar.png";
 
