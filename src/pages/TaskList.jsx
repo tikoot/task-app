@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-import comment from '../assets/comments.png'
+import comments from '../assets/comments.png'
 import "../index.css";
 const TaskListPage = () => {
   const [tasks, setTasks] = useState([]);
@@ -620,7 +620,7 @@ const TaskListPage = () => {
                    alt={task.employee.name}
                    className="w-8 h-8 rounded-full"
                  />
-                 <div className="text-sm flex items-center"><img src={comment} alt="comment logo" className="pr-[4px]" /> <p className="text-center pb-1">{task.total_comments}</p></div>
+                 <div className="text-sm flex items-center"><img src={comments} alt="comment logo" className="pr-[4px]" /> <p className="text-center pb-1">{task.total_comments}</p></div>
                </div>
              </div>
            </div>
