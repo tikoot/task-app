@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
-// import comments from '../assets/comments.png'
+import comIcon from "../assets/comIcon.png"
 import "../index.css";
 const TaskListPage = () => {
   const [tasks, setTasks] = useState([]);
@@ -449,7 +449,6 @@ const TaskListPage = () => {
       <path d="M6.70711 8.29289C6.31658 7.90237 5.68342 7.90237 5.29289 8.29289C4.90237 8.68342 4.90237 9.31658 5.29289 9.70711L11.2929 15.7071C11.6834 16.0976 12.3166 16.0976 12.7071 15.7071L18.7071 9.70711C19.0976 9.31658 19.0976 8.68342 18.7071 8.29289C18.3166 7.90237 17.6834 7.90237 17.2929 8.29289L12 13.5858L6.70711 8.29289Z" fill={activeDropdown === 'employees' ? '#8338EC' : '#0D0F10'}/>
       </svg>
    </button>
-   
    {activeDropdown === 'employees' && (
   <div className="absolute z-10 mt-6 w-full bg-white border border-[#8338EC] rounded-[10px] min-w-[500px]">
     <div className="px-[30px] pt-[40px] pb-[20px]">
@@ -457,12 +456,11 @@ const TaskListPage = () => {
         {employees.map(employee => (
           <div key={employee.id} className="flex items-center mb-2">
             <input
-              type="radio"
+              type="checkbox" /* Changed from radio to checkbox */
               id={`emp-${employee.id}`}
-              name="employee"
               checked={tempSelections.employee === employee.id}
               onChange={() => handleTempEmployeeChange(employee.id)}
-              className="mr-2 custom-radio"
+              className="mr-2 appearance-none w-4 h-4 rounded-full border border-gray-300 checked:bg-[#8338EC] checked:border-[#8338EC]" /* Style checkboxes to look like radio buttons */
             />
             <label htmlFor={`emp-${employee.id}`} className="text-sm cursor-pointer flex items-center">
               <img src={employee.avatar} alt={`${employee.name} ${employee.surname}`} className="w-6 h-6 rounded-full mr-2" />
@@ -620,7 +618,7 @@ const TaskListPage = () => {
                    alt={task.employee.name}
                    className="w-8 h-8 rounded-full"
                  />
-                 {/* <div className="text-sm flex items-center"><img src={comments} alt="comment logo" className="pr-[4px]" /> <p className="text-center pb-1">{task.total_comments}</p></div> */}
+                 <div className="text-sm flex items-center"><img src={comIcon} alt="comment logo" className="pr-[4px]" /> <p className="text-center pb-1">{task.total_comments}</p></div>
                </div>
              </div>
            </div>
