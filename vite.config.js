@@ -16,4 +16,7 @@ export default defineConfig({
       input: './index.html', 
     },
   },
+  purge: [
+    './public/**/*.html'
+  ],
 });
